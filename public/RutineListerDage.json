@@ -1,0 +1,37 @@
+{
+  "mandag": {
+    "morgen": "Frokost",
+    "eftermiddag": "Eftermiddagsmad",
+    "aften": "Middag"
+  },
+  "tirsdag": {
+    "morgen": "Frokost",
+    "eftermiddag": "Eftermiddagsmad",
+    "aften": "Middag"
+  },
+  "onsdag": {
+    "morgen": "Frokost",
+    "eftermiddag": "Eftermiddagsmad",
+    "aften": "Middag"
+  },
+  "torsdag": {
+    "morgen": "Frokost",
+    "eftermiddag": "Eftermiddagsmad",
+    "aften": "Middag"
+  },
+  "fredag": {
+    "morgen": "Frokost",
+    "eftermiddag": "Eftermiddagsmad",
+    "aften": "Middag"
+  },
+  "lørdag": {
+    "morgen": "Frokost",
+    "eftermiddag": "Eftermiddagsmad",
+    "aften": "Middag"
+  },
+  "søndag": {
+    "morgen": "Frokost",
+    "eftermiddag": "Eftermiddagsmad",
+    "aften": "Middag"
+  }
+}

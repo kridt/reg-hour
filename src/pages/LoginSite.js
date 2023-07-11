@@ -6,7 +6,6 @@ export default function LoginSite() {
 
   function handleLogin(value) {
     if (value.length === 6) {
-      console.log("Login", value);
       fetch("/medarbejdere.json")
         .then((response) => response.json())
         .then((data) => {
