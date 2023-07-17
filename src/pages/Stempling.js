@@ -1,14 +1,18 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { database } from "../firebase";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { auth, database } from "../firebase";
 
-export default function Stempling() {
+export default function Stempling({ user }) {
   /* const [currentDate, setCurrentDate] = useState(""); */
-  const todaysCode = new Date().toLocaleDateString().replaceAll(".", "");
-  const [todaysStempel, setTodaysStempel] = React.useState();
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
-  const [currentStempel, setCurrentStempel] = React.useState({
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (auth.currentUser.uid === undefined) {
+      navigate("/");
+    }
+  }, []);
+
+  const [currentStempel, setCurrentStempel] = useState({
     dato: "",
     time: "",
     location: { latitude: "", longitude: "" },
@@ -16,7 +20,10 @@ export default function Stempling() {
   });
 
   useEffect(() => {
-    database
+    const stempel = JSON.parse(localStorage.getItem("latestStempel"));
+    setCurrentStempel(stempel);
+
+    /* database
       .collection("users")
       .doc("kridt")
       .collection("stempel")
@@ -24,10 +31,9 @@ export default function Stempling() {
       .get()
       .then((doc) => {
         setCurrentStempel(doc.data());
-      });
+      }); */
   }, []);
 
-  console.log(currentStempel);
   function handleSteplIn() {
     const sixDigitDateCode = new Date()
       .toLocaleDateString()
@@ -50,12 +56,13 @@ export default function Stempling() {
 
       database
         .collection("users")
-        .doc("kridt")
+        .doc(auth?.currentUser?.uid)
         .collection("stempel")
         .doc(sixDigitDateCode)
         .set({
-          "stempling ind": stempel,
+          stemplingInd: stempel,
         });
+      localStorage.setItem("latestStempel", JSON.stringify(stempel));
       setCurrentStempel(stempel);
     });
   }
@@ -80,13 +87,14 @@ export default function Stempling() {
       };
       database
         .collection("users")
-        .doc("kridt")
+        .doc(auth?.currentUser?.uid)
         .collection("stempel")
         .doc(sixDigitDateCode)
         .set({
-          "stempling ind": currentStempel,
-          "stempling ud": stempel,
+          stemplingInd: currentStempel,
+          stemplingUd: stempel,
         });
+      localStorage.setItem("latestStempel", JSON.stringify(stempel));
       setCurrentStempel(stempel);
     });
   }

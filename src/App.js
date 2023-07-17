@@ -1,17 +1,25 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LoginSite from "./pages/LoginSite";
-import Rutineliste from "./pages/Rutineliste";
+
 import Stempling from "./pages/Stempling";
 import Lonkort from "./pages/Lonkort";
+import Admin from "./pages/Admin";
+import CreateCoworker from "./pages/CreateCoworker";
+import Login from "./pages/Login";
+import { auth } from "./firebase";
 
 function App() {
+  const user = auth.currentUser;
+
+  console.log(user);
+
   return (
     <BrowserRouter className="App">
       <Routes>
-        {/* <Route path="/" element={<LoginSite />} /> */}
-        <Route path="/rutineliste/:id" element={<Rutineliste />} />
-        <Route path="/" element={<Stempling />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/stempling" element={<Stempling user={user} />} />
         <Route path="/lonkort" element={<Lonkort />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/create" element={<CreateCoworker />} />
       </Routes>
     </BrowserRouter>
   );

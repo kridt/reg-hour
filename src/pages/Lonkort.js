@@ -1,37 +1,66 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { database } from "../firebase";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { auth, database } from "../firebase";
+import { Interval, eachDayOfInterval, set } from "date-fns";
+import { da } from "date-fns/locale";
 
 export default function Lonkort() {
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth() + 1;
+  const navigate = useNavigate();
+  const [currentPeriod, setCurrentPeriod] = useState([]);
+  const [allStempel, setAllStempel] = useState([]);
 
-  const getAllDaysInMonth = (month, year) =>
-    Array.from(
-      { length: new Date(year, month, 0).getDate() },
-      (_, i) => new Date(year, month - 1, i + 1)
-    );
-  const daysInMonth = getAllDaysInMonth(currentMonth, currentYear);
+  useEffect(() => {
+    if (auth.currentUser?.uid === undefined) {
+      navigate("/");
+    }
+    const dato = new Date().getDate();
+
+    if (dato < 15) {
+      setCurrentPeriod(
+        eachDayOfInterval({
+          start: new Date().setDate(new Date().getDate() - 31),
+          end: new Date().setDate(15),
+        })
+      );
+    } else {
+      setCurrentPeriod(
+        eachDayOfInterval({
+          start: new Date().setDate(16),
+          end: new Date().setDate(new Date().getDate() + 29),
+        })
+      );
+    }
+
+    database
+      .collection("users")
+      .doc(auth.currentUser?.uid)
+      .collection("stempel")
+      .get()
+      .then((snapshot) => {
+        setAllStempel(snapshot);
+      });
+  }, []);
 
   return (
     <div>
-      <Link to={"/"}>Til stempling</Link>
+      <Link to={"/stempling"}>Til stempling</Link>
       <h1>Lønkort</h1>
+      <h2>Nuværende lønperiode</h2>
       <div>
-        {daysInMonth.map((day) => {
+        <h1>datoer</h1>
+        {currentPeriod.map((date) => {
+          const test = allStempel?.docs?.find(
+            (doc) =>
+              parseInt(doc.id) ===
+              parseInt(date.toLocaleDateString().replaceAll(".", ""))
+          );
+          // console.log(test?.data().stemplingInd.time);
           return (
-            <div
-              key={day}
-              style={{ display: "flex", justifyContent: "space-between" }}
-            >
-              <div style={{ display: "flex" }}>
-                <p>{day.toLocaleDateString("da-DK", { weekday: "long" })} </p>
-                <p>{day.toLocaleDateString("da-DK")}</p>
-              </div>
-              <div>
-                <p>Stempling ind: </p>
-                <p>Stempling ud: </p>
-              </div>
+            <div style={{ borderBottom: "1px white solid", margin: "2em 0" }}>
+              <p>{date.toLocaleDateString()}</p>
+              <p>ind: {test?.data()?.stemplingInd?.time || null}</p>
+              <p>ud: {test?.data()?.stemplingUd?.time || null}</p>
+              <p>Hours after break: {/* brug date-fns durance function */} </p>
             </div>
           );
         })}
