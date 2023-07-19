@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, json, useNavigate } from "react-router-dom";
 import { auth, database } from "../firebase";
-import { eachDayOfInterval, intervalToDuration } from "date-fns";
+import { eachDayOfInterval, intervalToDuration, set } from "date-fns";
 
 export default function Lonkort() {
   const navigate = useNavigate();
   const [currentPeriod, setCurrentPeriod] = useState([]);
   const [allStempel, setAllStempel] = useState([]);
+  const [totalWorkHours, setTotalWorkHours] = useState(0);
 
   useEffect(() => {
     if (auth.currentUser?.uid === undefined) {
@@ -37,6 +38,25 @@ export default function Lonkort() {
       .get()
       .then((snapshot) => {
         setAllStempel(snapshot);
+        var totalWorkHours = [];
+
+        snapshot.docs.forEach((doc) => {
+          console.log(doc.data());
+          const stempelIn = doc.data().stemplingInd?.time;
+          const stempelUd = doc.data().stemplingUd?.time;
+
+          const startOfhoursInShift = parseInt(stempelIn?.split(".")[0]);
+          const hoursAfterBreak = startOfhoursInShift + 0.5;
+          const endTimeOfShift = parseInt(stempelUd?.split(".")[0]);
+
+          var workHours = endTimeOfShift - hoursAfterBreak;
+
+          totalWorkHours.push(workHours);
+        });
+
+        const reducer = (accumulator) => accumulator.reduce((a, b) => a + b, 0);
+
+        setTotalWorkHours(reducer(totalWorkHours));
       });
   }, []);
 
@@ -72,6 +92,7 @@ export default function Lonkort() {
           if (!workHours) {
             workHours = 0;
           }
+
           return (
             <div
               key={date.id}
@@ -84,6 +105,17 @@ export default function Lonkort() {
             </div>
           );
         })}
+      </div>
+      <div
+        style={{
+          backgroundColor: "#444",
+          position: "fixed",
+          bottom: "0",
+          right: "0",
+          left: "0",
+        }}
+      >
+        <h2>total hours: {totalWorkHours}</h2>
       </div>
     </div>
   );

@@ -11,6 +11,11 @@ export default function AdminNav() {
           </Link>
         </li>
         <li style={{ listStyle: "none" }}>
+          <Link style={{ color: "white" }} to="/allLonkort">
+            Alle lønkort
+          </Link>
+        </li>
+        <li style={{ listStyle: "none" }}>
           <Link style={{ color: "white" }} to="/create">
             Create
           </Link>

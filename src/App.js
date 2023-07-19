@@ -6,6 +6,7 @@ import Admin from "./pages/Admin";
 import CreateCoworker from "./pages/CreateCoworker";
 import Login from "./pages/Login";
 import { auth } from "./firebase";
+import AllLonKort from "./pages/AllLonKort";
 
 function App() {
   const user = auth.currentUser;
@@ -20,6 +21,7 @@ function App() {
         <Route path="/lonkort" element={<Lonkort />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/create" element={<CreateCoworker />} />
+        <Route path="/allLonkort" element={<AllLonKort />} />
       </Routes>
     </BrowserRouter>
   );
