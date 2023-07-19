@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, json, useNavigate } from "react-router-dom";
 import { auth, database } from "../firebase";
-import { Interval, eachDayOfInterval, set } from "date-fns";
-import { da } from "date-fns/locale";
+import { eachDayOfInterval, intervalToDuration } from "date-fns";
 
 export default function Lonkort() {
   const navigate = useNavigate();
@@ -54,13 +53,34 @@ export default function Lonkort() {
               parseInt(doc.id) ===
               parseInt(date.toLocaleDateString().replaceAll(".", ""))
           );
-          // console.log(test?.data().stemplingInd.time);
+          const stempelIn = test?.data()?.stemplingInd?.time;
+          const stempelUd = test?.data()?.stemplingUd?.time;
+          /* const minusBreak = intervalToDuration({
+            start: new Date().getHours(stempelIn),
+            end: new Date().getHours(stempelUd),
+          }); */
+          const startOfhoursInShift = parseInt(
+            test?.data()?.stemplingInd?.time.split(".")[0]
+          );
+          const hoursAfterBreak = startOfhoursInShift + 0.5;
+          const endTimeOfShift = parseInt(
+            test?.data()?.stemplingUd?.time.split(".")[0]
+          );
+
+          var workHours = endTimeOfShift - hoursAfterBreak;
+
+          if (!workHours) {
+            workHours = 0;
+          }
           return (
-            <div style={{ borderBottom: "1px white solid", margin: "2em 0" }}>
+            <div
+              key={date.id}
+              style={{ borderBottom: "1px white solid", margin: "2em 0" }}
+            >
               <p>{date.toLocaleDateString()}</p>
-              <p>ind: {test?.data()?.stemplingInd?.time || null}</p>
-              <p>ud: {test?.data()?.stemplingUd?.time || null}</p>
-              <p>Hours after break: {/* brug date-fns durance function */} </p>
+              <p>ind: {stempelIn || null}</p>
+              <p>ud: {stempelUd || null}</p>
+              <p>Hours after break: {workHours} </p>
             </div>
           );
         })}
