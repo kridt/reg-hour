@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link, json, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth, database } from "../firebase";
-import { eachDayOfInterval, intervalToDuration, set } from "date-fns";
+import { eachDayOfInterval } from "date-fns";
 
 export default function Lonkort() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function Lonkort() {
       setCurrentPeriod(
         eachDayOfInterval({
           start: new Date().setDate(16),
-          end: new Date().setDate(new Date().getDate() + 29),
+          end: new Date().setDate(new Date().getDate() + 24),
         })
       );
     }
@@ -41,7 +41,6 @@ export default function Lonkort() {
         var totalWorkHours = [];
 
         snapshot.docs.forEach((doc) => {
-          console.log(doc.data());
           const stempelIn = doc.data().stemplingInd?.time;
           const stempelUd = doc.data().stemplingUd?.time;
 
@@ -58,15 +57,25 @@ export default function Lonkort() {
 
         setTotalWorkHours(reducer(totalWorkHours));
       });
-  }, []);
+  }, [navigate]);
 
   return (
     <div>
-      <Link to={"/stempling"}>Til stempling</Link>
-      <h1>Lønkort</h1>
+      <Link style={{ color: "white" }} to={"/menu"}>
+        Tilbage
+      </Link>
+
       <h2>Nuværende lønperiode</h2>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <p style={{ flex: "1" }}>Dato</p>
+        <div
+          style={{ display: "flex", justifyContent: "space-evenly", flex: "1" }}
+        >
+          <p>Ind</p>
+          <p>Ud</p>
+        </div>
+      </div>
       <div>
-        <h1>datoer</h1>
         {currentPeriod.map((date) => {
           const test = allStempel?.docs?.find(
             (doc) =>
@@ -75,10 +84,7 @@ export default function Lonkort() {
           );
           const stempelIn = test?.data()?.stemplingInd?.time;
           const stempelUd = test?.data()?.stemplingUd?.time;
-          /* const minusBreak = intervalToDuration({
-            start: new Date().getHours(stempelIn),
-            end: new Date().getHours(stempelUd),
-          }); */
+
           const startOfhoursInShift = parseInt(
             test?.data()?.stemplingInd?.time.split(".")[0]
           );
@@ -96,12 +102,25 @@ export default function Lonkort() {
           return (
             <div
               key={date.id}
-              style={{ borderBottom: "1px white solid", margin: "2em 0" }}
+              style={{
+                borderBottom: "1px white solid",
+                margin: "2em 0",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
             >
-              <p>{date.toLocaleDateString()}</p>
-              <p>ind: {stempelIn || null}</p>
-              <p>ud: {stempelUd || null}</p>
-              <p>Hours after break: {workHours} </p>
+              <p style={{ flex: "1" }}>{date.toLocaleDateString()}</p>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  flex: "1",
+                }}
+              >
+                <p>{stempelIn || null}</p>
+                <p>{stempelUd || null}</p>
+              </div>
+              {/* <p>Hours after break: {workHours} </p> */}
             </div>
           );
         })}

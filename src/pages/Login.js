@@ -13,14 +13,13 @@ export default function Login() {
     console.log(data);
 
     auth.signInWithEmailAndPassword(data.email, data.password).then((user) => {
-      console.log(user);
-      navigate("/stempling");
+      navigate("/menu");
     });
   }
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1>Log ind</h1>
 
       <form onSubmit={(e) => handleLogIn(e)}>
         <label>Email:</label>

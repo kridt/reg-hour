@@ -13,7 +13,9 @@ export default function CreateCoworker() {
       medarbejderNummer: parseInt(e.target.medarbejderNummer.value),
       email: e.target.email.value,
       password: e.target.password.value,
+      timeLøn: parseFloat(e.target.løn.value.replace(",", ".")),
     };
+    console.log(data);
     auth
       .createUserWithEmailAndPassword(data.email, data.password)
       .then((userCredential) => {
@@ -25,6 +27,7 @@ export default function CreateCoworker() {
             medarbejderNummer: data.medarbejderNummer,
             email: data.email,
             uid: userCredential.user.uid,
+            timeLøn: data.timeLøn,
           })
           .then(() => {
             console.log("Document successfully written!");
@@ -61,6 +64,12 @@ export default function CreateCoworker() {
         <br />
         <label>Password:</label>
         <input type="password" name="password" />
+        <br />
+        <br />
+        <br />
+        <br />
+        <label>Aftalt timeløn:</label>
+        <input type="text" name="løn" />
         <br />
         <br />
         <br />

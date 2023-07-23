@@ -6,6 +6,11 @@ export default function AdminNav() {
     <nav>
       <ul style={{ display: "flex", justifyContent: "space-evenly" }}>
         <li style={{ listStyle: "none" }}>
+          <Link style={{ color: "white" }} to="/menu">
+            Tilbage
+          </Link>
+        </li>
+        <li style={{ listStyle: "none" }}>
           <Link style={{ color: "white" }} to="/admin">
             Admin
           </Link>

@@ -100,16 +100,39 @@ export default function Stempling({ user }) {
   }
   return (
     <div>
-      <Link to={"/lonkort"}>Til lonkort</Link>
-      <h1>Stempling</h1>
-      <button onClick={() => handleSteplIn()}>Stempl ind</button>
-      <button onClick={() => handleSteplOut()}>Stepl Ud</button>
-      <h2>Dit seneste stempel</h2>
-      <p>Funktion: {currentStempel?.funktion}</p>
-      <p>Dato: {currentStempel?.dato}</p>
-      <p>Tid: {currentStempel?.time}</p>
-      <p>Latitude: {currentStempel?.location?.latitude}</p>
-      <p>Longitude: {currentStempel?.location?.longitude}</p>
+      <Link style={{ color: "white" }} to={"/menu"}>
+        Tilbage
+      </Link>
+      <h1 style={{ textAlign: "center" }}>Stempling</h1>
+      <button
+        style={{
+          display: "block",
+          margin: "0 auto",
+          width: "90%",
+          height: "3em",
+        }}
+        onClick={() => handleSteplIn()}
+      >
+        Stempl ind
+      </button>
+      <br />
+      <button
+        style={{
+          display: "block",
+          margin: "0 auto",
+          width: "90%",
+          height: "3em",
+        }}
+        onClick={() => handleSteplOut()}
+      >
+        Stepl Ud
+      </button>
+      <div style={{ margin: "1em" }}>
+        <h2>Dit seneste stempel</h2>
+        <p>Funktion: {currentStempel?.funktion}</p>
+        <p>Dato: {currentStempel?.dato}</p>
+        <p>Tid: {currentStempel?.time}</p>
+      </div>
     </div>
   );
 }
