@@ -18,8 +18,8 @@ export default function Lonkort() {
     if (dato < 15) {
       setCurrentPeriod(
         eachDayOfInterval({
-          start: new Date().setDate(new Date().getDate() - 31),
-          end: new Date().setDate(15),
+          start: new Date().setDate(new Date().getDate() - 18),
+          end: new Date().setDate(16),
         })
       );
     } else {

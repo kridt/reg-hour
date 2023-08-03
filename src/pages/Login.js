@@ -19,20 +19,73 @@ export default function Login() {
 
   return (
     <div>
-      <h1>Log ind</h1>
+      <h1
+        style={{
+          textAlign: "center",
+          marginTop: "2em",
+          marginBottom: "2em",
+        }}
+      >
+        Log ind
+      </h1>
 
       <form onSubmit={(e) => handleLogIn(e)}>
-        <label>Email:</label>
-        <input type="text" name="email" />
+        <input
+          style={{
+            width: "60%",
+            margin: "0 auto",
+            height: "2em",
+            display: "flex",
+            justifyContent: "center",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            padding: "0.5em",
+            boxSizing: "border-box",
+          }}
+          placeholder="Email"
+          type="text"
+          name="email"
+        />
+
         <br />
         <br />
         <br />
-        <label>Password:</label>
-        <input type="password" name="password" />
+
+        <input
+          style={{
+            width: "60%",
+            margin: "0 auto",
+            height: "2em",
+            display: "flex",
+            justifyContent: "center",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            padding: "0.5em",
+            boxSizing: "border-box",
+          }}
+          placeholder="Password"
+          type="password"
+          name="password"
+        />
         <br />
         <br />
         <br />
-        <button type="submit">Log in</button>
+        <button
+          style={{
+            width: "30%",
+            margin: "0 auto",
+            height: "2em",
+            display: "flex",
+            justifyContent: "center",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            padding: "0.5em",
+            boxSizing: "border-box",
+          }}
+          type="submit"
+        >
+          Log in
+        </button>
       </form>
     </div>
   );
