@@ -35,6 +35,14 @@ export default function Stempling({ user }) {
   }, []);
 
   function handleSteplIn() {
+    if (currentStempel?.funktion === "stempling ind") {
+      if (
+        window.confirm("Du har allerede stemplet ind, vil du stemple ind igen?")
+      ) {
+      } else {
+        return;
+      }
+    }
     const sixDigitDateCode = new Date()
       .toLocaleDateString()
       .replaceAll(".", "");
@@ -68,6 +76,17 @@ export default function Stempling({ user }) {
   }
 
   function handleSteplOut() {
+    if (currentStempel?.funktion === "stempling ud") {
+      if (
+        window.confirm(
+          "Du har allerede stemplet ud, vil du stemple ud igen? dette vil slette dit seneste stempel"
+        )
+      ) {
+      } else {
+        return;
+      }
+    }
+
     const sixDigitDateCode = new Date()
       .toLocaleDateString()
       .replaceAll(".", "");

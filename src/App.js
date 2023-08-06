@@ -10,11 +10,10 @@ import AllLonKort from "./pages/AllLonKort";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AdminRoute } from "./components/AdminRoute";
 import Menu from "./pages/Menu";
+import Settings from "./pages/Settings";
 
 function App() {
   const user = auth.currentUser;
-
-  console.log(user);
 
   return (
     <BrowserRouter className="App">
@@ -46,6 +45,14 @@ function App() {
           element={
             <ProtectedRoute user={user}>
               <Menu />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute user={user}>
+              <Settings />
             </ProtectedRoute>
           }
         />

@@ -2,9 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SignOutBut from "../components/SignOutBut";
 import { auth } from "../firebase";
+import { listOfDates } from "../components/GetListOfArrays";
 
 export default function Menu() {
   const [admin, setAdmin] = useState(false);
+
+  const test = listOfDates;
+
+  console.log(test);
 
   useEffect(() => {
     auth?.currentUser?.uid === "onl32JzYaOPSOVofAU45o7HCzMs2"
@@ -75,6 +80,22 @@ export default function Menu() {
               to="/lonkort"
             >
               Lønkort
+            </Link>
+          </li>
+          <br />
+          <br />
+          <li
+            style={{
+              listStyle: "none",
+              backgroundColor: "#555",
+              padding: "1em 3em",
+            }}
+          >
+            <Link
+              style={{ color: "white", textDecoration: "none" }}
+              to={"/settings"}
+            >
+              settings
             </Link>
           </li>
         </ul>

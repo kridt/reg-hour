@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, database } from "../firebase";
 import { eachDayOfInterval } from "date-fns";
+import { listOfDates } from "../components/GetListOfArrays";
 
 export default function Lonkort() {
   const navigate = useNavigate();
-  const [currentPeriod, setCurrentPeriod] = useState([]);
+  // const [currentPeriod, setCurrentPeriod] = useState([]);
+  const currentPeriod = listOfDates;
   const [allStempel, setAllStempel] = useState([]);
   const [totalWorkHours, setTotalWorkHours] = useState(0);
 
@@ -15,10 +17,10 @@ export default function Lonkort() {
     }
     const dato = new Date().getDate();
 
-    if (dato < 15) {
+    /* if (dato < 15) {
       setCurrentPeriod(
         eachDayOfInterval({
-          start: new Date().setDate(new Date().getDate() - 18),
+          start: new Date().setDate(new Date().getDate() - 21),
           end: new Date().setDate(16),
         })
       );
@@ -30,7 +32,7 @@ export default function Lonkort() {
         })
       );
     }
-
+ */
     database
       .collection("users")
       .doc(auth.currentUser?.uid)
@@ -75,56 +77,63 @@ export default function Lonkort() {
           <p>Ud</p>
         </div>
       </div>
-      <div>
-        {currentPeriod.map((date) => {
-          const test = allStempel?.docs?.find(
-            (doc) =>
-              parseInt(doc.id) ===
-              parseInt(date.toLocaleDateString().replaceAll(".", ""))
-          );
-          const stempelIn = test?.data()?.stemplingInd?.time;
-          const stempelUd = test?.data()?.stemplingUd?.time;
+      {
+        <div>
+          {currentPeriod.map((date) => {
+            const test = allStempel?.docs?.find(
+              (doc) =>
+                parseInt(doc.id) ===
+                parseInt(date.toLocaleDateString().replaceAll(".", ""))
+            );
+            const stempelIn = test?.data()?.stemplingInd?.time;
+            const stempelUd = test?.data()?.stemplingUd?.time;
 
-          const startOfhoursInShift = parseInt(
-            test?.data()?.stemplingInd?.time.split(".")[0]
-          );
-          const hoursAfterBreak = startOfhoursInShift + 0.5;
-          const endTimeOfShift = parseInt(
-            test?.data()?.stemplingUd?.time.split(".")[0]
-          );
+            const startOfhoursInShift = parseInt(
+              test?.data()?.stemplingInd?.time.split(".")[0]
+            );
+            const hoursAfterBreak = startOfhoursInShift + 0.5;
+            const endTimeOfShift = parseInt(
+              test?.data()?.stemplingUd?.time.split(".")[0]
+            );
 
-          var workHours = endTimeOfShift - hoursAfterBreak;
+            var workHours = endTimeOfShift - hoursAfterBreak;
 
-          if (!workHours) {
-            workHours = 0;
-          }
+            if (!workHours) {
+              workHours = 0;
+            }
 
-          return (
-            <div
-              key={date.id}
-              style={{
-                borderBottom: "1px white solid",
-                margin: "2em 0",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <p style={{ flex: "1" }}>{date.toLocaleDateString()}</p>
+            return (
               <div
+                key={date.id}
                 style={{
+                  borderBottom: "1px white solid",
+                  margin: "2em 0",
                   display: "flex",
-                  justifyContent: "space-evenly",
-                  flex: "1",
+                  justifyContent: "space-between",
                 }}
               >
-                <p>{stempelIn || null}</p>
-                <p>{stempelUd || null}</p>
+                <p style={{ flex: "1" }}>{date.toLocaleDateString()}</p>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    flex: "1",
+                  }}
+                >
+                  <p>{stempelIn || null}</p>
+                  <p>{stempelUd || null}</p>
+                </div>
+                {/* <p>Hours after break: {workHours} </p> */}
               </div>
-              {/* <p>Hours after break: {workHours} </p> */}
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      }
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <div
         style={{
           backgroundColor: "#444",

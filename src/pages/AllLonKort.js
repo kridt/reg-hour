@@ -31,6 +31,7 @@ export default function AllLonKort() {
             .then((snapshot) => {
               snapshot.forEach((doc) => {
                 pushData.stemplinger.push(doc.data());
+                pushData.totalWorkHours = workHours(pushData.stemplinger);
               });
             });
           //console.log(workHours(pushData.stemplinger));
@@ -39,6 +40,9 @@ export default function AllLonKort() {
         });
 
         setAllUsers(users);
+        /* allUsers?.map((user) => {
+          user.totalWorkHours = workHours(user.stemplinger);
+        }); */
       });
   }, [setAllUsers]);
 
@@ -61,13 +65,6 @@ export default function AllLonKort() {
     return reducer(totalWorkHours);
   }
 
-  useEffect(() => {
-    allUsers?.map((user) => {
-      user.totalWorkHours = workHours(user.stemplinger);
-    });
-    console.log(allUsers);
-  }, []);
-
   return (
     <div>
       <AdminNav />
@@ -76,24 +73,27 @@ export default function AllLonKort() {
         <thead>
           <tr>
             <th>Navn</th>
-            <th>Medarbejder nummer</th>
+            <th>Med nr</th>
             <th>Time løn</th>
             <th>Antal timer</th>
-            <th>Samlet løn ca</th>
+            <th>Løn ca</th>
           </tr>
 
           {allUsers?.map((user) => {
-            //console.log("in map", user?.totalWorkHours, user);
-            console.log(user?.totalWorkHours);
-
+            if (user?.totalWorkHours === undefined) {
+              user.totalWorkHours = 0;
+            }
             return (
-              <tr key={user.id}>
-                <td>{user?.name}</td>
-                <td>{user?.medarbejderNummer}</td>
-                <td>{user?.timeLøn}</td>
-                <td>{user?.totalWorkHours}</td>
-                <td>Samlet løn ca</td>
-              </tr>
+              <>
+                <tr key={user?.id}>
+                  <td>{user?.name}</td>
+                  <td>{user?.medarbejderNummer}</td>
+                  <td>{user?.timeLøn}</td>
+                  <td>{user?.totalWorkHours}</td>
+                  <td>Løn ca</td>
+                </tr>
+                <br />
+              </>
             );
           })}
         </thead>
