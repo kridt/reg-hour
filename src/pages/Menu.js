@@ -2,14 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SignOutBut from "../components/SignOutBut";
 import { auth } from "../firebase";
-import { listOfDates } from "../components/GetListOfArrays";
 
 export default function Menu() {
   const [admin, setAdmin] = useState(false);
-
-  const test = listOfDates;
-
-  console.log(test);
 
   useEffect(() => {
     auth?.currentUser?.uid === "onl32JzYaOPSOVofAU45o7HCzMs2"

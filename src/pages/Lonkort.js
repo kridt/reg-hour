@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, database } from "../firebase";
-import { eachDayOfInterval } from "date-fns";
 import { listOfDates } from "../components/GetListOfArrays";
 
 export default function Lonkort() {

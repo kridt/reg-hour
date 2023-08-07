@@ -19,8 +19,6 @@ export default function Admin() {
       });
   }, []);
 
-  console.log(allUsers);
-
   return (
     <div>
       <AdminNav />
