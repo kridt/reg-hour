@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, database } from "../firebase";
+import { LangContext } from "../context/LangContext";
+import EnglishSwitch from "../components/EnglishSwitch";
 
 export default function Settings() {
+  const { language } = useContext(LangContext);
   const [user, setUser] = useState(auth.currentUser);
   const [name, setName] = useState("");
   const navigate = useNavigate();
@@ -48,46 +51,114 @@ export default function Settings() {
     }
   }
   return (
-    <div>
-      <Link style={{ color: "white" }} to={"/menu"}>
-        Tilbage
-      </Link>
-      <h1 style={{ textAlign: "center" }}>Settings</h1>
+    <>
+      {language ? (
+        <>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Link style={{ color: "white" }} to={"/menu"}>
+                Back
+              </Link>
 
-      <div>
-        <p>name: {name}</p>
-        <p>email: {user.email}</p>
-      </div>
-      <div>
-        <h2>Change password</h2>
-        <form onSubmit={(e) => changePassword(e)}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              maxWidth: "200px",
-            }}
-          >
-            <label>New password:</label>
-            <input type="password" name="newPassword" />
+              <EnglishSwitch />
+            </div>
+            <h1 style={{ textAlign: "center" }}>Settings</h1>
+
+            <div>
+              <p>Name: {name}</p>
+              <p>E-mail: {user.email}</p>
+            </div>
+            <div>
+              <h2>Change Password</h2>
+              <form onSubmit={(e) => changePassword(e)}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    maxWidth: "200px",
+                  }}
+                >
+                  <label>New Password:</label>
+                  <input type="password" name="newPassword" />
+                </div>
+                <br />
+                <br />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    maxWidth: "200px",
+                  }}
+                >
+                  <label>Confirm new password:</label>
+                  <input type="password" name="confirmNewPassword" />
+                </div>
+                <br />
+                <br />
+                <button type="submit">Change Password</button>
+              </form>
+            </div>
           </div>
-          <br />
-          <br />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              maxWidth: "200px",
-            }}
-          >
-            <label>Confirm new password:</label>
-            <input type="password" name="confirmNewPassword" />
+        </>
+      ) : (
+        <>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Link style={{ color: "white" }} to={"/menu"}>
+                Tilbage
+              </Link>
+
+              <EnglishSwitch />
+            </div>
+            <h1 style={{ textAlign: "center" }}>Instillinger</h1>
+
+            <div>
+              <p>Navn: {name}</p>
+              <p>E-mail: {user.email}</p>
+            </div>
+            <div>
+              <h2>Skift Adgangskode</h2>
+              <form onSubmit={(e) => changePassword(e)}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    maxWidth: "200px",
+                  }}
+                >
+                  <label>Ny Adgangskode:</label>
+                  <input type="password" name="newPassword" />
+                </div>
+                <br />
+                <br />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    maxWidth: "200px",
+                  }}
+                >
+                  <label>Bekræft ny Adgangskode:</label>
+                  <input type="password" name="confirmNewPassword" />
+                </div>
+                <br />
+                <br />
+                <button type="submit">Skift Adgangskode</button>
+              </form>
+            </div>
           </div>
-          <br />
-          <br />
-          <button type="submit">Change password</button>
-        </form>
-      </div>
-    </div>
+        </>
+      )}
+    </>
   );
 }

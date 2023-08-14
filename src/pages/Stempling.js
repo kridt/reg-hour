@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, database } from "../firebase";
+import { LangContext } from "../context/LangContext";
 
 export default function Stempling({ user }) {
   /* const [currentDate, setCurrentDate] = useState(""); */
-
+  const { language } = useContext(LangContext);
   const navigate = useNavigate();
   useEffect(() => {
     if (auth.currentUser.uid === undefined) {
@@ -118,40 +119,84 @@ export default function Stempling({ user }) {
     });
   }
   return (
-    <div>
-      <Link style={{ color: "white" }} to={"/menu"}>
-        Tilbage
-      </Link>
-      <h1 style={{ textAlign: "center" }}>Stempling</h1>
-      <button
-        style={{
-          display: "block",
-          margin: "0 auto",
-          width: "90%",
-          height: "3em",
-        }}
-        onClick={() => handleSteplIn()}
-      >
-        Stempl ind
-      </button>
-      <br />
-      <button
-        style={{
-          display: "block",
-          margin: "0 auto",
-          width: "90%",
-          height: "3em",
-        }}
-        onClick={() => handleSteplOut()}
-      >
-        Stepl Ud
-      </button>
-      <div style={{ margin: "1em" }}>
-        <h2>Dit seneste stempel</h2>
-        <p>Funktion: {currentStempel?.funktion}</p>
-        <p>Dato: {currentStempel?.dato}</p>
-        <p>Tid: {currentStempel?.time}</p>
-      </div>
-    </div>
+    <>
+      {language ? (
+        <>
+          <div>
+            <Link style={{ color: "white" }} to={"/menu"}>
+              Back
+            </Link>
+            <h1 style={{ textAlign: "center" }}>Stamping</h1>
+            <button
+              style={{
+                display: "block",
+                margin: "0 auto",
+                width: "90%",
+                height: "3em",
+              }}
+              onClick={() => handleSteplIn()}
+            >
+              Check in
+            </button>
+            <br />
+            <button
+              style={{
+                display: "block",
+                margin: "0 auto",
+                width: "90%",
+                height: "3em",
+              }}
+              onClick={() => handleSteplOut()}
+            >
+              Check out
+            </button>
+            <div style={{ margin: "1em" }}>
+              <h2>Your last stamp</h2>
+              <p>Function: {currentStempel?.funktion}</p>
+              <p>Date: {currentStempel?.dato}</p>
+              <p>Time: {currentStempel?.time}</p>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div>
+            <Link style={{ color: "white" }} to={"/menu"}>
+              Tilbage
+            </Link>
+            <h1 style={{ textAlign: "center" }}>Stempling</h1>
+            <button
+              style={{
+                display: "block",
+                margin: "0 auto",
+                width: "90%",
+                height: "3em",
+              }}
+              onClick={() => handleSteplIn()}
+            >
+              Stempl ind
+            </button>
+            <br />
+            <button
+              style={{
+                display: "block",
+                margin: "0 auto",
+                width: "90%",
+                height: "3em",
+              }}
+              onClick={() => handleSteplOut()}
+            >
+              Stempl Ud
+            </button>
+            <div style={{ margin: "1em" }}>
+              <h2>Dit seneste stempel</h2>
+              <p>Funktion: {currentStempel?.funktion}</p>
+              <p>Dato: {currentStempel?.dato}</p>
+              <p>Tid: {currentStempel?.time}</p>
+            </div>
+          </div>
+        </>
+      )}
+    </>
   );
 }
