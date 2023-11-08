@@ -46,7 +46,7 @@ export default function Stempling({ user }) {
     }
     const sixDigitDateCode = new Date()
       .toLocaleDateString()
-      .replaceAll(".", "");
+      .replaceAll(".", "-");
     console.log(sixDigitDateCode);
     navigator.geolocation.getCurrentPosition((position) => {
       const time = new Date().toLocaleTimeString("da-DK");
@@ -90,7 +90,7 @@ export default function Stempling({ user }) {
 
     const sixDigitDateCode = new Date()
       .toLocaleDateString()
-      .replaceAll(".", "");
+      .replaceAll(".", "-");
     navigator.geolocation.getCurrentPosition((position) => {
       const time = new Date().toLocaleTimeString("da-DK");
       const dato = new Date().toLocaleDateString("da-DK");
