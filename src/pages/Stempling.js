@@ -5,12 +5,22 @@ import { LangContext } from "../context/LangContext";
 
 export default function Stempling({ user }) {
   /* const [currentDate, setCurrentDate] = useState(""); */
+  const [dagensKodeTest, setDagensKodeTest] = useState("123123")
   const { language } = useContext(LangContext);
   const navigate = useNavigate();
   useEffect(() => {
     if (auth.currentUser.uid === undefined) {
       navigate("/");
     }
+
+    fetch("https://reghour-express.vercel.app/api/getDagensKode")
+    .then(res => res.json)
+    .then(data => {
+
+      setDagensKodeTest(data.dagensKode)
+    
+    })
+    
   }, []);
 
   const [currentStempel, setCurrentStempel] = useState({
@@ -67,7 +77,7 @@ export default function Stempling({ user }) {
         .collection("users")
         .doc(auth?.currentUser?.uid)
         .collection("stempel")
-        .doc(sixDigitDateCode)
+        .doc(dagensKodeTest)
         .set({
           stemplingInd: stempel,
         });
@@ -109,7 +119,7 @@ export default function Stempling({ user }) {
         .collection("users")
         .doc(auth?.currentUser?.uid)
         .collection("stempel")
-        .doc(sixDigitDateCode)
+        .doc(dagensKodeTest)
         .set({
           stemplingInd: currentStempel,
           stemplingUd: stempel,
