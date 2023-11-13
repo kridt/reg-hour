@@ -5,7 +5,9 @@ import { LangContext } from "../context/LangContext";
 
 export default function Stempling({ user }) {
   /* const [currentDate, setCurrentDate] = useState(""); */
-  const [dagensKodeTest, setDagensKodeTest] = useState("123123")
+  const [dagensKodeTest, setDagensKodeTest] = useState(
+    "detHerErKodenNaarLortetIkkeVirker"
+  );
   const { language } = useContext(LangContext);
   const navigate = useNavigate();
   useEffect(() => {
@@ -14,13 +16,11 @@ export default function Stempling({ user }) {
     }
 
     fetch("https://reghour-express.vercel.app/api/getDagensKode")
-    .then(res => res.json)
-    .then(data => {
-
-      setDagensKodeTest(data.dagensKode)
-    
-    })
-    
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.dagensKode);
+        setDagensKodeTest(data.dagensKode);
+      });
   }, []);
 
   const [currentStempel, setCurrentStempel] = useState({
