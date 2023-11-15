@@ -1,14 +1,32 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import EnglishSwitch from "../components/EnglishSwitch";
 import { LangContext } from "../context/LangContext";
+import axios from "axios";
 
 export default function Login() {
   const { language } = useContext(LangContext);
   console.log(language);
   const navigate = useNavigate();
-  function handleLogIn(e) {
+
+  async function test() {
+    try {
+      const response = await axios.get(
+        "https://reghour-express.vercel.app/api/getDagensKode",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+
+  /* function handleLogIn(e) {
     e.preventDefault();
     const data = {
       email: e.target.email.value,
@@ -19,6 +37,35 @@ export default function Login() {
     auth.signInWithEmailAndPassword(data.email, data.password).then((user) => {
       navigate("/menu");
     });
+  } */
+
+  function handleLogIn(e) {
+    e.preventDefault();
+    const data = {
+      email: e.target.email.value,
+      password: e.target.password.value,
+    };
+    console.log(data);
+
+    // Ask for permission to get user's location
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log(position.coords.latitude, position.coords.longitude);
+        auth
+          .signInWithEmailAndPassword(data.email, data.password)
+          .then((user) => {
+            navigate("/menu");
+          });
+      },
+      (error) => {
+        console.log(error);
+        auth
+          .signInWithEmailAndPassword(data.email, data.password)
+          .then((user) => {
+            navigate("/menu");
+          });
+      }
+    );
   }
 
   return (
@@ -170,6 +217,10 @@ export default function Login() {
                 Log ind
               </button>
             </form>
+
+            <button onClick={() => test()}>
+              <h1>test</h1>
+            </button>
           </div>
         </>
       )}
