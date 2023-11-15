@@ -2,9 +2,26 @@ import React, { useEffect, useState } from "react";
 import { database } from "../firebase";
 import AdminNav from "../components/AdminNav";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Admin() {
   const [allUsers, setAllUsers] = useState([]);
+
+  async function test() {
+    try {
+      const response = await axios.get(
+        "https://reghour-express.vercel.app/api/getDagensKode",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
 
   useEffect(() => {
     database
@@ -22,6 +39,7 @@ export default function Admin() {
   return (
     <div>
       <AdminNav />
+      <button onClick={() => test()}>test</button>
       <h1>Admin</h1>
       <h2>Liste med alle medarbejdere, tryk på dem for at ændre</h2>
       <div>

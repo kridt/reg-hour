@@ -10,22 +10,6 @@ export default function Login() {
   console.log(language);
   const navigate = useNavigate();
 
-  async function test() {
-    try {
-      const response = await axios.get(
-        "https://reghour-express.vercel.app/api/getDagensKode",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.log("error", error);
-    }
-  }
-
   /* function handleLogIn(e) {
     e.preventDefault();
     const data = {
@@ -217,10 +201,6 @@ export default function Login() {
                 Log ind
               </button>
             </form>
-
-            <button onClick={() => test()}>
-              <h1>test</h1>
-            </button>
           </div>
         </>
       )}
