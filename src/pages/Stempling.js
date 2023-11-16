@@ -71,6 +71,7 @@ export default function Stempling({ user }) {
     const stempel = {
       funktion: "stempling ind",
       stempelDato: new Date().toLocaleDateString("da-DK"),
+      stempelTime: new Date().toLocaleTimeString("da-DK"),
     };
 
     try {
