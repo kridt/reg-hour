@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, database } from "../firebase";
 import { LangContext } from "../context/LangContext";
-import { set } from "date-fns/esm";
-import { alertTitleClasses } from "@mui/material";
 
 export default function Stempling({ user }) {
   /* const [currentDate, setCurrentDate] = useState(""); */
@@ -82,7 +80,7 @@ export default function Stempling({ user }) {
         .collection("stempel")
         .doc(dagensKodeTest)
         .set({
-          stemplingInd: "yes",
+          stempel,
         })
         .then(() => {
           setLoading(false);
