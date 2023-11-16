@@ -63,7 +63,6 @@ export default function Stempling({ user }) {
       console.log(sixDigitDateCode); */
 
     /*  navigator.geolocation.getCurrentPosition((position) => {
-        const time = new Date().toLocaleTimeString("da-DK");
         const dato = new Date().toLocaleDateString("da-DK");
         const location = {
           latitude: position.coords.latitude,
@@ -71,13 +70,11 @@ export default function Stempling({ user }) {
         };
       }); */
 
-    /* const stempel = {
-        funktion: "stempling ind",
-        dato,
-        time,
-        location,
-      };
- */
+    const stempel = {
+      funktion: "stempling ind",
+      stempelDato: new Date().toLocaleDateString("da-DK"),
+    };
+
     try {
       database
         .collection("users")
