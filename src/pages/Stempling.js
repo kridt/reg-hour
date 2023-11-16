@@ -7,7 +7,7 @@ import { alertTitleClasses } from "@mui/material";
 
 export default function Stempling({ user }) {
   /* const [currentDate, setCurrentDate] = useState(""); */
-  const [dagensKodeTest, setDagensKodeTest] = useState("14!09!2021");
+  const [dagensKodeTest, setDagensKodeTest] = useState("17!09!2021");
   const { language } = useContext(LangContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();

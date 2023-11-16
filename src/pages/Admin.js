@@ -9,14 +9,15 @@ export default function Admin() {
 
   async function test() {
     try {
-      const response = await axios.get(
-        "https://reghour-express.vercel.app/api/getDagensKode",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post("http://localhost:3003/api/checkIn", {
+        headers: {
+          "Content-Type": "application/json",
+          origin: "http://localhost:3000",
+        },
+        body: {
+          medarbejderNummer: "1234",
+        },
+      });
       console.log(response.data);
     } catch (error) {
       console.log("error", error);
