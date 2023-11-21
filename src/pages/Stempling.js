@@ -13,14 +13,6 @@ export default function Stempling({ user }) {
     if (auth.currentUser.uid === undefined) {
       navigate("/");
     }
-
-    /* fetch("https://reghour-express.vercel.app/api/getDagensKode")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.dagensKode);
-        setDagensKodeTest(data.dagensKode.replaceAll("-", "!"));
-      });
-      */
   }, []);
 
   const [currentStempel, setCurrentStempel] = useState({
