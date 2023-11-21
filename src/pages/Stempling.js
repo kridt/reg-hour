@@ -63,11 +63,14 @@ export default function Stempling({ user }) {
 
     try {
       axios
-        .post(`https://express-reghour.onrender.com/${auth.currentUser.uid}`, {
-          body: {
-            medarbejderNummer: auth.currentUser.uid,
-          },
-        })
+        .post(
+          `https://express-reghour.onrender.com/api/checkin/${auth.currentUser.uid}`,
+          {
+            body: {
+              medarbejderNummer: auth.currentUser.uid,
+            },
+          }
+        )
         .then((response) => {
           console.log(response.data);
         });
