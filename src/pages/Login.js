@@ -10,21 +10,6 @@ export default function Login() {
   console.log(language);
   const navigate = useNavigate();
 
-  function test() {
-    axios
-      .post(
-        "https://express-reghour.onrender.com/api/checkIn/5wLPctIE9lc8vU7ELNAIw6kevZE2",
-        {
-          latitude: 55.676098,
-          longitude: 12.568337,
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        alert(res.data.data.latitude);
-      });
-  }
-
   /* function handleLogIn(e) {
     e.preventDefault();
     const data = {
@@ -84,7 +69,6 @@ export default function Login() {
               Log in
             </h1>
 
-            <button onClick={() => test()}>asdasdasd</button>
             <form onSubmit={(e) => handleLogIn(e)}>
               <input
                 style={{
