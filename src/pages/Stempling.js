@@ -36,8 +36,8 @@ export default function Stempling({ user }) {
       .then((doc) => {
         setCurrentStempel(doc.data());
       }); */
+    console.log(auth.currentUser.uid);
   }, []);
-  console.log(user);
   function handleSteplIn() {
     setLoading(true);
     if (currentStempel?.funktion === "stempling ind") {
@@ -63,9 +63,9 @@ export default function Stempling({ user }) {
 
     try {
       axios
-        .post(`https://express-reghour.onrender.com/${user.uid}`, {
+        .post(`https://express-reghour.onrender.com/${auth.currentUser.uid}`, {
           body: {
-            medarbejderNummer: user.uid,
+            medarbejderNummer: auth.currentUser.uid,
           },
         })
         .then((response) => {
