@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, database } from "../firebase";
+import { auth } from "../firebase";
 import { LangContext } from "../context/LangContext";
+import axios from "axios";
 
 export default function Stempling({ user }) {
   /* const [currentDate, setCurrentDate] = useState(""); */
-  const [dagensKodeTest, setDagensKodeTest] = useState("17!09!2021");
+
   const { language } = useContext(LangContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function Stempling({ user }) {
     if (auth.currentUser.uid === undefined) {
       navigate("/");
     }
-  }, []);
+  }, [navigate]);
 
   const [currentStempel, setCurrentStempel] = useState({
     dato: "",
@@ -36,7 +37,7 @@ export default function Stempling({ user }) {
         setCurrentStempel(doc.data());
       }); */
   }, []);
-
+  console.log(user);
   function handleSteplIn() {
     setLoading(true);
     if (currentStempel?.funktion === "stempling ind") {
@@ -60,23 +61,15 @@ export default function Stempling({ user }) {
         };
       }); */
 
-    const stempel = {
-      funktion: "stempling ind",
-      stempelDato: new Date().toLocaleDateString("da-DK"),
-      stempelTime: new Date().toLocaleTimeString("da-DK"),
-    };
-
     try {
-      database
-        .collection("users")
-        .doc(auth?.currentUser?.uid)
-        .collection("stempel")
-        .doc(dagensKodeTest)
-        .set({
-          stempel,
+      axios
+        .post(`https://express-reghour.onrender.com/${user.uid}`, {
+          body: {
+            medarbejderNummer: user.uid,
+          },
         })
-        .then(() => {
-          setLoading(false);
+        .then((response) => {
+          console.log(response.data);
         });
     } catch (error) {
       alert("Du har ikke givet tilladelse til at bruge din lokation");
@@ -97,7 +90,7 @@ export default function Stempling({ user }) {
       }
     }
 
-    const sixDigitDateCode = new Date()
+    /* const sixDigitDateCode = new Date()
       .toLocaleDateString()
       .replaceAll(".", "-");
     navigator.geolocation.getCurrentPosition((position) => {
@@ -125,7 +118,7 @@ export default function Stempling({ user }) {
         });
       localStorage.setItem("latestStempel", JSON.stringify(stempel));
       setCurrentStempel(stempel);
-    });
+    }); */
   }
   return (
     <>

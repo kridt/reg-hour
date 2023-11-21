@@ -1,9 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import EnglishSwitch from "../components/EnglishSwitch";
 import { LangContext } from "../context/LangContext";
-import axios from "axios";
 
 export default function Login() {
   const { language } = useContext(LangContext);
