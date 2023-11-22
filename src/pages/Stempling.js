@@ -15,10 +15,7 @@ export default function Stempling({ user }) {
       navigate("/");
     }
   }, [navigate]);
-  const location = {
-    latitude: localStorage.getItem("latitude"),
-    longitude: localStorage.getItem("longitude"),
-  };
+
   const [currentStempel, setCurrentStempel] = useState({
     dato: "",
     time: "",
@@ -62,8 +59,6 @@ export default function Stempling({ user }) {
         .post(`${expressUrl}/api/checkin/${auth.currentUser.uid}`, {
           body: {
             medarbejderNummer: auth.currentUser.uid,
-            latitude: location.latitude,
-            longitude: location.longitude,
           },
         })
         .then((response) => {
