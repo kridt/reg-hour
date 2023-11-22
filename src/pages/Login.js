@@ -37,6 +37,8 @@ export default function Login() {
         auth
           .signInWithEmailAndPassword(data.email, data.password)
           .then((user) => {
+            localStorage.setItem("latitude", position.coords.latitude);
+            localStorage.setItem("longitude", position.coords.longitude);
             navigate("/menu");
           });
       },

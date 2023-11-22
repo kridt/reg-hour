@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function Stempling({ user }) {
   /* const [currentDate, setCurrentDate] = useState(""); */
-
+  const expressUrl = "http://localhost:6969";
   const { language } = useContext(LangContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -15,14 +15,17 @@ export default function Stempling({ user }) {
       navigate("/");
     }
   }, [navigate]);
-
+  const location = {
+    latitude: localStorage.getItem("latitude"),
+    longitude: localStorage.getItem("longitude"),
+  };
   const [currentStempel, setCurrentStempel] = useState({
     dato: "",
     time: "",
     location: { latitude: "", longitude: "" },
     funktion: "",
   });
-
+  console.log(location);
   useEffect(() => {
     const stempel = JSON.parse(localStorage.getItem("latestStempel"));
     setCurrentStempel(stempel);
@@ -40,6 +43,7 @@ export default function Stempling({ user }) {
   }, []);
   function handleSteplIn() {
     setLoading(true);
+
     if (currentStempel?.funktion === "stempling ind") {
       if (
         window.confirm("Du har allerede stemplet ind, vil du stemple ind igen?")
@@ -53,24 +57,15 @@ export default function Stempling({ user }) {
       .replaceAll(".", "-");
       console.log(sixDigitDateCode); */
 
-    /*  navigator.geolocation.getCurrentPosition((position) => {
-        const dato = new Date().toLocaleDateString("da-DK");
-        const location = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        };
-      }); */
-
     try {
       axios
-        .post(
-          `https://express-reghour.onrender.com/api/checkin/${auth.currentUser.uid}`,
-          {
-            body: {
-              medarbejderNummer: auth.currentUser.uid,
-            },
-          }
-        )
+        .post(`${expressUrl}/api/checkin/${auth.currentUser.uid}`, {
+          body: {
+            medarbejderNummer: auth.currentUser.uid,
+            latitude: location.latitude,
+            longitude: location.longitude,
+          },
+        })
         .then((response) => {
           console.log(response.data);
         });
