@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function Stempling({ user }) {
   /* const [currentDate, setCurrentDate] = useState(""); */
-  const expressUrl = "http://localhost:6969";
+  const expressUrl = "https://express-reghour.onrender.com";
   const { language } = useContext(LangContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
