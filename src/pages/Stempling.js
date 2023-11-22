@@ -68,6 +68,7 @@ export default function Stempling({ user }) {
         })
         .then((response) => {
           console.log(response.data);
+          alert("Du har stemplet ind");
         });
     } catch (error) {
       alert("Du har ikke givet tilladelse til at bruge din lokation");
