@@ -35,7 +35,9 @@ export default function Stempling({ user }) {
       .get()
       .then((doc) => {
         setCurrentStempel(doc.data());
-      }); */
+      }); 
+      
+      */
     console.log(auth.currentUser.uid);
   }, []);
   function handleSteplIn() {
