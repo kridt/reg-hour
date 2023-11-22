@@ -75,17 +75,6 @@ export default function Stempling({ user }) {
   }
 
   function handleSteplOut() {
-    if (currentStempel?.funktion === "stempling ud") {
-      if (
-        window.confirm(
-          "Du har allerede stemplet ud, vil du stemple ud igen? dette vil slette dit seneste stempel"
-        )
-      ) {
-      } else {
-        return;
-      }
-    }
-
     /* const sixDigitDateCode = new Date()
       .toLocaleDateString()
       .replaceAll(".", "-");
@@ -115,6 +104,17 @@ export default function Stempling({ user }) {
       localStorage.setItem("latestStempel", JSON.stringify(stempel));
       setCurrentStempel(stempel);
     }); */
+
+    try {
+      axios
+        .post(`${expressUrl}/api/checkout/${auth.currentUser.uid}`)
+        .then((response) => {
+          console.log(response.data);
+          alert("Du har stemplet ud");
+        });
+    } catch (error) {
+      alert("Der skete en fejl, send en sms til 25 77 14 03");
+    }
   }
   return (
     <>
