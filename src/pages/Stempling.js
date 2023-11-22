@@ -22,7 +22,7 @@ export default function Stempling({ user }) {
     location: { latitude: "", longitude: "" },
     funktion: "",
   });
-  console.log(location);
+
   useEffect(() => {
     const stempel = JSON.parse(localStorage.getItem("latestStempel"));
     setCurrentStempel(stempel);
