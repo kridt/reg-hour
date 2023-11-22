@@ -9,6 +9,11 @@ export default function Stempling({ user }) {
   const expressUrl = "https://express-reghour.onrender.com";
   const { language } = useContext(LangContext);
   const [loading, setLoading] = useState(false);
+  const [satStempel, setSatStempel] = useState({
+    dato: "",
+    time: "",
+    funktion: "",
+  });
   const navigate = useNavigate();
   useEffect(() => {
     if (auth.currentUser.uid === undefined) {
@@ -43,14 +48,6 @@ export default function Stempling({ user }) {
   function handleSteplIn() {
     setLoading(true);
 
-    if (currentStempel?.funktion === "stempling ind") {
-      if (
-        window.confirm("Du har allerede stemplet ind, vil du stemple ind igen?")
-      ) {
-      } else {
-        return;
-      }
-    }
     /* const sixDigitDateCode = new Date()
       .toLocaleDateString()
       .replaceAll(".", "-");
@@ -64,7 +61,15 @@ export default function Stempling({ user }) {
           },
         })
         .then((response) => {
-          console.log(response.data);
+          console.log(response.data.data);
+
+          setSatStempel({
+            dato: response.data.dato,
+            time: response.data.time,
+            funktion: response.data.funktion,
+          });
+
+          setLoading(false);
           alert("Du har stemplet ind");
         });
     } catch (error) {
@@ -75,41 +80,18 @@ export default function Stempling({ user }) {
   }
 
   function handleSteplOut() {
-    /* const sixDigitDateCode = new Date()
-      .toLocaleDateString()
-      .replaceAll(".", "-");
-    navigator.geolocation.getCurrentPosition((position) => {
-      const time = new Date().toLocaleTimeString("da-DK");
-      const dato = new Date().toLocaleDateString("da-DK");
-      const location = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      };
-
-      const stempel = {
-        funktion: "stempling ud",
-        dato,
-        time,
-        location,
-      };
-      database
-        .collection("users")
-        .doc(auth?.currentUser?.uid)
-        .collection("stempel")
-        .doc(dagensKodeTest)
-        .set({
-          stemplingInd: currentStempel,
-          stemplingUd: stempel,
-        });
-      localStorage.setItem("latestStempel", JSON.stringify(stempel));
-      setCurrentStempel(stempel);
-    }); */
-
+    setLoading(true);
     try {
       axios
         .post(`${expressUrl}/api/checkout/${auth.currentUser.uid}`)
         .then((response) => {
           console.log(response.data);
+          setSatStempel({
+            dato: response.data.dato,
+            time: response.data.time,
+            funktion: response.data.function,
+          });
+          setLoading(false);
           alert("Du har stemplet ud");
         });
     } catch (error) {
@@ -155,9 +137,9 @@ export default function Stempling({ user }) {
             </button>
             <div style={{ margin: "1em" }}>
               <h2>Your last stamp</h2>
-              <p>Function: {currentStempel?.funktion}</p>
-              <p>Date: {currentStempel?.dato}</p>
-              <p>Time: {currentStempel?.time}</p>
+              <p>Function: {satStempel?.funktion}</p>
+              <p>Date: {satStempel?.dato}</p>
+              <p>Time: {satStempel?.time}</p>
             </div>
           </div>
         </>
@@ -193,9 +175,9 @@ export default function Stempling({ user }) {
             </button>
             <div style={{ margin: "1em" }}>
               <h2>Dit seneste stempel</h2>
-              <p>Funktion: {currentStempel?.funktion}</p>
-              <p>Dato: {currentStempel?.dato}</p>
-              <p>Tid: {currentStempel?.time}</p>
+              <p>Funktion: {satStempel?.funktion}</p>
+              <p>Dato: {satStempel?.dato}</p>
+              <p>Tid: {satStempel?.time}</p>
             </div>
           </div>
         </>
