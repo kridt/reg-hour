@@ -3,10 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { LangContext } from "../context/LangContext";
 import axios from "axios";
+import { listOfDates } from "../components/GetListOfArrays";
 
 export default function Stempling({ user }) {
   /* const [currentDate, setCurrentDate] = useState(""); */
   const expressUrl = "https://express-reghour.onrender.com";
+  const localUrl = "http://localhost:6969";
   const { language } = useContext(LangContext);
   const [loading, setLoading] = useState(false);
   var currentLocation = {
@@ -55,11 +57,12 @@ export default function Stempling({ user }) {
     console.log(currentLocation);
     try {
       axios
-        .post(`${expressUrl}/api/checkin/${auth.currentUser.uid}`, {
+        .post(`${localUrl}/api/checkin/${auth.currentUser.uid}`, {
           body: {
             medarbejderNummer: auth.currentUser.uid,
             location: currentLocation,
             time: new Date().toLocaleTimeString(),
+            periode: listOfDates.nameOfPeriod,
           },
         })
         .then((response) => {
@@ -90,11 +93,12 @@ export default function Stempling({ user }) {
     setLoading(true);
     try {
       axios
-        .post(`${expressUrl}/api/checkout/${auth.currentUser.uid}`, {
+        .post(`${localUrl}/api/checkout/${auth.currentUser.uid}`, {
           body: {
             medarbejderNummer: auth.currentUser.uid,
             location: currentLocation,
             time: new Date().toLocaleTimeString(),
+            periode: listOfDates.nameOfPeriod,
           },
         })
         .then((response) => {

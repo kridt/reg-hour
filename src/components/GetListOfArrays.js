@@ -34,13 +34,21 @@ export const listOfDates = getDatesBetween(startDate, endDate);
 
 function getDatesBetween(startDate, endDate) {
   const datesArray = [];
+  const nameOfPeriod = `${startDate.getDate()}-${
+    startDate.getMonth() + 1
+  }-${startDate.getFullYear()} - ${endDate.getDate()}-${
+    endDate.getMonth() + 1
+  }-${endDate.getFullYear()}`;
   const currentDate = new Date(startDate);
   const lastDate = new Date(endDate);
-
+  const returnObject = {
+    nameOfPeriod: nameOfPeriod,
+    dates: datesArray,
+  };
   while (currentDate <= lastDate) {
     datesArray.push(new Date(currentDate));
     currentDate.setDate(currentDate.getDate() + 1);
   }
 
-  return datesArray;
+  return returnObject;
 }
