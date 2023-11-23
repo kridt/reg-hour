@@ -9,6 +9,11 @@ export default function Stempling({ user }) {
   const expressUrl = "https://express-reghour.onrender.com";
   const { language } = useContext(LangContext);
   const [loading, setLoading] = useState(false);
+  var currentLocation = {
+    latitude: localStorage.getItem("latitude"),
+    longitude: localStorage.getItem("longitude"),
+  };
+
   const [satStempel, setSatStempel] = useState({
     dato: "",
     time: "",
@@ -47,17 +52,14 @@ export default function Stempling({ user }) {
   }, []);
   function handleSteplIn() {
     setLoading(true);
-
-    /* const sixDigitDateCode = new Date()
-      .toLocaleDateString()
-      .replaceAll(".", "-");
-      console.log(sixDigitDateCode); */
-
+    console.log(currentLocation);
     try {
       axios
         .post(`${expressUrl}/api/checkin/${auth.currentUser.uid}`, {
           body: {
             medarbejderNummer: auth.currentUser.uid,
+            location: currentLocation,
+            time: new Date().toLocaleTimeString(),
           },
         })
         .then((response) => {
@@ -67,12 +69,17 @@ export default function Stempling({ user }) {
             dato: response.data.dato,
             time: response.data.time,
             funktion: response.data.funktion,
+            location: {
+              latitude: currentLocation.latitude,
+              longitude: currentLocation.longitude,
+            },
           });
 
           setLoading(false);
           alert("Du har stemplet ind");
         });
     } catch (error) {
+      setLoading(false);
       alert("Du har ikke givet tilladelse til at bruge din lokation");
     }
     // localStorage.setItem("latestStempel", JSON.stringify(stempel));
@@ -83,18 +90,29 @@ export default function Stempling({ user }) {
     setLoading(true);
     try {
       axios
-        .post(`${expressUrl}/api/checkout/${auth.currentUser.uid}`)
+        .post(`${expressUrl}/api/checkout/${auth.currentUser.uid}`, {
+          body: {
+            medarbejderNummer: auth.currentUser.uid,
+            location: currentLocation,
+            time: new Date().toLocaleTimeString(),
+          },
+        })
         .then((response) => {
           console.log(response.data);
           setSatStempel({
             dato: response.data.dato,
             time: response.data.time,
             funktion: response.data.function,
+            location: {
+              latitude: currentLocation.latitude,
+              longitude: currentLocation.longitude,
+            },
           });
           setLoading(false);
           alert("Du har stemplet ud");
         });
     } catch (error) {
+      setLoading(false);
       alert("Der skete en fejl, send en sms til 25 77 14 03");
     }
   }
