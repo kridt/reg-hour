@@ -57,7 +57,7 @@ export default function Stempling({ user }) {
     console.log(currentLocation);
     try {
       axios
-        .post(`${localUrl}/api/checkin/${auth.currentUser.uid}`, {
+        .post(`${expressUrl}/api/checkin/${auth.currentUser.uid}`, {
           body: {
             medarbejderNummer: auth.currentUser.uid,
             location: currentLocation,
@@ -93,7 +93,7 @@ export default function Stempling({ user }) {
     setLoading(true);
     try {
       axios
-        .post(`${localUrl}/api/checkout/${auth.currentUser.uid}`, {
+        .post(`${expressUrl}/api/checkout/${auth.currentUser.uid}`, {
           body: {
             medarbejderNummer: auth.currentUser.uid,
             location: currentLocation,
