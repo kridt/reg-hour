@@ -29,14 +29,14 @@ if (startMonth === 12) {
 
 const startDate = new Date(startYear, startMonth - 1, 16);
 const endDate = new Date(endYear, endMonth - 1, 15);
-
+console.log("startDate", startDate, "endDate", endDate);
 export const listOfDates = getDatesBetween(startDate, endDate);
 
-function getDatesBetween(startDate, endDate) {
+export function getDatesBetween(startDate, endDate) {
   const datesArray = [];
   const nameOfPeriod = `${startDate.getDate()}-${
     startDate.getMonth() + 1
-  }-${startDate.getFullYear()} - ${endDate.getDate()}-${
+  }-${startDate.getFullYear()}-${endDate.getDate()}-${
     endDate.getMonth() + 1
   }-${endDate.getFullYear()}`;
   const currentDate = new Date(startDate);

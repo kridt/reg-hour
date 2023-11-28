@@ -7,22 +7,6 @@ import axios from "axios";
 export default function Admin() {
   const [allUsers, setAllUsers] = useState([]);
 
-  async function test() {
-    try {
-      const response = await axios.post(
-        "http://localhost:6969/api/checkin/jfjdjjfd",
-        {
-          body: {
-            medarbejderNummer: "1234",
-          },
-        }
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.log("error", error);
-    }
-  }
-
   useEffect(() => {
     database
       .collection("users")
@@ -39,7 +23,12 @@ export default function Admin() {
   return (
     <div>
       <AdminNav />
-      <button onClick={() => test()}>test</button>
+
+      <form className="">
+        <label htmlFor="make">Lav stempel for medarbejder</label>
+        <input type="radio" value={"asd"} />
+      </form>
+
       <h1>Admin</h1>
       <h2>Liste med alle medarbejdere, tryk på dem for at ændre</h2>
       <div>

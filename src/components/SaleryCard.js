@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { auth, database } from "../firebase";
 
-export default function SaleryCard({ date }) {
+export default function SaleryCard({ date, nameOfPeriod }) {
   const [workday, setWorkday] = useState({});
 
   const datecode = `${date.getDate()}-${
@@ -13,6 +13,8 @@ export default function SaleryCard({ date }) {
     database
       .collection("users")
       .doc(auth.currentUser?.uid)
+      .collection("lonperioder")
+      .doc(nameOfPeriod)
       .collection("stempel")
       .doc(datecode)
       .get()
@@ -21,8 +23,8 @@ export default function SaleryCard({ date }) {
           setWorkday(doc.data());
         }
       });
-  }, []);
-  console.log(workday);
+  }, [setWorkday, datecode, nameOfPeriod]);
+
   return (
     <div className="bg-gray-700 p-4 mb-4">
       <h3 className="text-lg font-bold mb-2">
@@ -30,10 +32,10 @@ export default function SaleryCard({ date }) {
       </h3>
       <div className="flex">
         <div className="w-1/2">
-          <p>Check In Time: {workday?.stempelIn?.time || ""}</p>
+          <p>{workday?.stempelIn?.time || ""}</p>
         </div>
         <div className="w-1/2">
-          <p>Check Out Time: {workday?.stempelOut?.time || ""}</p>
+          <p>{workday?.stempelOut?.time || ""}</p>
         </div>
       </div>
     </div>

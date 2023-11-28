@@ -5,6 +5,8 @@ import "firebase/compat/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyBpq30gkFoK3WGR6YLhmIeMFKiCgaeuWTE",
   authDomain: "night-reserve.firebaseapp.com",
+  databaseURL:
+    "https://night-reserve-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "night-reserve",
   storageBucket: "night-reserve.appspot.com",
   messagingSenderId: "1062451369756",
