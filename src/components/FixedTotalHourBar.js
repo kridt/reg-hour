@@ -54,12 +54,12 @@ export default function FixedTotalHourBar({ periode }) {
   return language ? (
     <div className="fixed bottom-0 left-0 w-full bg-gray-500 p-4">
       {/* Your content here */}
-      <p>Total hours: {makeInt()}</p>
+      <p>Total hours: {makeInt().toFixed(2)}</p>
     </div>
   ) : (
     <div className="fixed bottom-0 left-0 w-full bg-gray-500 p-4">
       {/* Your content here */}
-      <p>Timer i alt: {makeInt()}</p>
+      <p>Timer i alt: {makeInt().toFixed(2)}</p>
     </div>
   );
 }
