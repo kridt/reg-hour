@@ -33,6 +33,7 @@ export default function Stempling() {
     try {
       axios
         .post(`${serverUrl}/api/checkin/${auth.currentUser.uid}`, {
+
           body: {
             medarbejderNummer: auth.currentUser.uid,
             location: currentLocation,
@@ -62,6 +63,8 @@ export default function Stempling() {
     }
     // localStorage.setItem("latestStempel", JSON.stringify(stempel));
     //setCurrentStempel(stempel);
+
+    setLoading(false);
   }
 
   function handleSteplOut() {
@@ -69,6 +72,7 @@ export default function Stempling() {
     try {
       axios
         .post(`${serverUrl}/api/checkout/${auth.currentUser.uid}`, {
+
           body: {
             medarbejderNummer: auth.currentUser.uid,
             location: currentLocation,
@@ -94,6 +98,8 @@ export default function Stempling() {
       setLoading(false);
       alert("Der skete en fejl, send en sms til 25 77 14 03");
     }
+
+    setLoading(false);
   }
   return (
     <>
@@ -115,7 +121,9 @@ export default function Stempling() {
                 margin: "0 auto",
                 width: "90%",
                 height: "3em",
+
                 backgroundColor: "black",
+
               }}
               onClick={() => handleSteplIn()}
             >
