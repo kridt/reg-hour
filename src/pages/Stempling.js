@@ -27,30 +27,6 @@ export default function Stempling() {
     }
   }, [navigate]);
 
-  const [currentStempel, setCurrentStempel] = useState({
-    dato: "",
-    time: "",
-    location: { latitude: "", longitude: "" },
-    funktion: "",
-  });
-
-  useEffect(() => {
-    const stempel = JSON.parse(localStorage.getItem("latestStempel"));
-    setCurrentStempel(stempel);
-
-    /* database
-      .collection("users")
-      .doc("kridt")
-      .collection("stempel")
-      .doc(todaysCode)
-      .get()
-      .then((doc) => {
-        setCurrentStempel(doc.data());
-      }); 
-      
-      */
-    console.log(auth.currentUser.uid);
-  }, []);
   function handleSteplIn() {
     setLoading(true);
     console.log(currentLocation);

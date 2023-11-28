@@ -18,7 +18,7 @@ export default function FixedTotalHourBar({ periode }) {
       .get()
       .then((doc) => {
         var totalHours = [];
-        doc.docs.map((item) => {
+        doc.docs.forEach((item) => {
           if (item?.data()?.stempelIn?.time && item?.data()?.stempelOut?.time) {
             const totalHour = WorkHoursCalculator(
               item?.data()?.stempelIn?.time,
@@ -35,7 +35,7 @@ export default function FixedTotalHourBar({ periode }) {
   function makeInt() {
     var totalHours = 0;
 
-    total?.map((item) => {
+    total?.forEach((item) => {
       totalHours += parseFloat(item);
     });
 
