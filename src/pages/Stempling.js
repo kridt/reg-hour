@@ -5,10 +5,9 @@ import { LangContext } from "../context/LangContext";
 import axios from "axios";
 import { listOfDates } from "../components/GetListOfArrays";
 
-export default function Stempling({ user }) {
+export default function Stempling() {
   /* const [currentDate, setCurrentDate] = useState(""); */
-  const expressUrl = "https://express-reghour.onrender.com";
-  const localUrl = "http://localhost:6969";
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
   const { language } = useContext(LangContext);
   const [loading, setLoading] = useState(false);
   var currentLocation = {
@@ -28,36 +27,13 @@ export default function Stempling({ user }) {
     }
   }, [navigate]);
 
-  const [currentStempel, setCurrentStempel] = useState({
-    dato: "",
-    time: "",
-    location: { latitude: "", longitude: "" },
-    funktion: "",
-  });
-
-  useEffect(() => {
-    const stempel = JSON.parse(localStorage.getItem("latestStempel"));
-    setCurrentStempel(stempel);
-
-    /* database
-      .collection("users")
-      .doc("kridt")
-      .collection("stempel")
-      .doc(todaysCode)
-      .get()
-      .then((doc) => {
-        setCurrentStempel(doc.data());
-      }); 
-      
-      */
-    console.log(auth.currentUser.uid);
-  }, []);
   function handleSteplIn() {
     setLoading(true);
     console.log(currentLocation);
     try {
       axios
-        .post(`${expressUrl}/api/checkin/${auth.currentUser.uid}`, {
+        .post(`${serverUrl}/api/checkin/${auth.currentUser.uid}`, {
+
           body: {
             medarbejderNummer: auth.currentUser.uid,
             location: currentLocation,
@@ -95,7 +71,8 @@ export default function Stempling({ user }) {
     setLoading(true);
     try {
       axios
-        .post(`${expressUrl}/api/checkout/${auth.currentUser.uid}`, {
+        .post(`${serverUrl}/api/checkout/${auth.currentUser.uid}`, {
+
           body: {
             medarbejderNummer: auth.currentUser.uid,
             location: currentLocation,
@@ -144,7 +121,9 @@ export default function Stempling({ user }) {
                 margin: "0 auto",
                 width: "90%",
                 height: "3em",
-                 backgroundColor: "black",
+
+                backgroundColor: "black",
+
               }}
               onClick={() => handleSteplIn()}
             >
