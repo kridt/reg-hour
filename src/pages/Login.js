@@ -6,7 +6,7 @@ import { LangContext } from "../context/LangContext";
 
 export default function Login() {
   const { language } = useContext(LangContext);
-  console.log(language);
+  const [showHide, setShowHide] = React.useState(false); // this is for the password show/hide
   const navigate = useNavigate();
 
   /* function handleLogIn(e) {
@@ -29,28 +29,32 @@ export default function Login() {
       password: e.target.password.value,
     };
     console.log(data);
-
-    // Ask for permission to get user's location
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        console.log(position.coords.latitude, position.coords.longitude);
-        auth
-          .signInWithEmailAndPassword(data.email, data.password)
-          .then((user) => {
-            localStorage.setItem("latitude", position.coords.latitude);
-            localStorage.setItem("longitude", position.coords.longitude);
-            navigate("/menu");
-          });
-      },
-      (error) => {
-        console.log(error);
-        auth
-          .signInWithEmailAndPassword(data.email, data.password)
-          .then((user) => {
-            navigate("/menu");
-          });
-      }
-    );
+    try {
+      // Ask for permission to get user's location
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log(position.coords.latitude, position.coords.longitude);
+          auth
+            .signInWithEmailAndPassword(data.email, data.password)
+            .then((user) => {
+              localStorage.setItem("latitude", position.coords.latitude);
+              localStorage.setItem("longitude", position.coords.longitude);
+              navigate("/menu");
+            });
+        },
+        (error) => {
+          console.log(error);
+          auth
+            .signInWithEmailAndPassword(data.email, data.password)
+            .then((user) => {
+              navigate("/menu");
+            });
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
   }
 
   return (
@@ -91,7 +95,18 @@ export default function Login() {
               <br />
               <br />
               <br />
-
+              <div
+                style={{
+                  marginLeft: "20.75em",
+                  marginBottom: ".25em",
+                }}
+              >
+                <label htmlFor="showhide">Show Password: </label>
+                <input
+                  type="checkbox"
+                  onChange={(e) => setShowHide(e.target.checked)}
+                />
+              </div>
               <input
                 style={{
                   width: "60%",
@@ -105,7 +120,7 @@ export default function Login() {
                   boxSizing: "border-box",
                 }}
                 placeholder="Password"
-                type="password"
+                type={showHide ? "text" : "password"}
                 name="password"
               />
               <br />

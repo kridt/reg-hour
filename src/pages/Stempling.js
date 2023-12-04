@@ -4,6 +4,7 @@ import { auth } from "../firebase";
 import { LangContext } from "../context/LangContext";
 import axios from "axios";
 import { listOfDates } from "../components/GetListOfArrays";
+import LoadingScreen from "../components/LoadingScreen";
 
 export default function Stempling() {
   /* const [currentDate, setCurrentDate] = useState(""); */
@@ -27,13 +28,12 @@ export default function Stempling() {
     }
   }, [navigate]);
 
-  function handleSteplIn() {
+  async function handleSteplIn() {
     setLoading(true);
     console.log(currentLocation);
     try {
-      axios
+      await axios
         .post(`${serverUrl}/api/checkin/${auth.currentUser.uid}`, {
-
           body: {
             medarbejderNummer: auth.currentUser.uid,
             location: currentLocation,
@@ -67,12 +67,11 @@ export default function Stempling() {
     setLoading(false);
   }
 
-  function handleSteplOut() {
+  async function handleSteplOut() {
     setLoading(true);
     try {
-      axios
+      await axios
         .post(`${serverUrl}/api/checkout/${auth.currentUser.uid}`, {
-
           body: {
             medarbejderNummer: auth.currentUser.uid,
             location: currentLocation,
@@ -103,6 +102,7 @@ export default function Stempling() {
   }
   return (
     <>
+      {loading ? <LoadingScreen /> : null}
       {language ? (
         <>
           <div>
@@ -123,8 +123,8 @@ export default function Stempling() {
                 height: "3em",
 
                 backgroundColor: "black",
-
               }}
+              disabled={loading}
               onClick={() => handleSteplIn()}
             >
               Check in
@@ -138,6 +138,7 @@ export default function Stempling() {
                 height: "3em",
                 backgroundColor: "black",
               }}
+              disabled={loading}
               onClick={() => handleSteplOut()}
             >
               Check out
@@ -166,6 +167,7 @@ export default function Stempling() {
                 backgroundColor: "black",
               }}
               onClick={() => handleSteplIn()}
+              disabled={loading}
             >
               Stempl ind
             </button>
@@ -178,6 +180,7 @@ export default function Stempling() {
                 height: "3em",
                 backgroundColor: "black",
               }}
+              disabled={loading}
               onClick={() => handleSteplOut()}
             >
               Stempl Ud

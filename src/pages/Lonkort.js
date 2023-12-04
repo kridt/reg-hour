@@ -27,6 +27,12 @@ export default function Lonkort() {
         setChoosePeriod([removed, ...doc.docs]);
       });
   }, [currentPeriod.nameOfPeriod]);
+  Notification.requestPermission().then(function (result) {
+    console.log(result);
+    if (result === "granted") {
+      new Notification("You have a new message");
+    }
+  });
 
   //console.log(getDatesBetween(new Date(1970, 0, 16), new Date(2027, 1, 15)));
   function chooseAnotherPeriode(e) {

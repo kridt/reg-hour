@@ -6,5 +6,6 @@ export const ProtectedRoute = ({ user, redirectPath = "/", children }) => {
     return <Navigate to={redirectPath} replace />;
   }
 
+  console.log(children);
   return children;
 };
