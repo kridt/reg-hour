@@ -3,6 +3,7 @@ import { database } from "../firebase";
 import AdminNav from "../components/AdminNav";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import MakeStempel from "../components/MakeStempel";
 
 export default function Admin() {
   const [allUsers, setAllUsers] = useState([]);
@@ -24,13 +25,11 @@ export default function Admin() {
     <div>
       <AdminNav />
 
-      <form className="">
-        <label htmlFor="make">Lav stempel for medarbejder</label>
-        <input type="radio" value={"asd"} />
-      </form>
-
       <h1>Admin</h1>
       <h2>Liste med alle medarbejdere, tryk på dem for at ændre</h2>
+
+      <MakeStempel coworkers={allUsers} />
+
       <div>
         <div
           style={{
@@ -64,6 +63,21 @@ export default function Admin() {
             </Link>
           );
         })}
+      </div>
+
+      <div>
+        <button
+          onClick={() => {
+            Notification.requestPermission().then(function (result) {
+              console.log(result);
+              if (result === "granted") {
+                new Notification("You have a new message");
+              }
+            });
+          }}
+        >
+          test noti
+        </button>
       </div>
     </div>
   );
