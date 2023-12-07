@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { database } from "../firebase";
 import AdminNav from "../components/AdminNav";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import MakeStempel from "../components/MakeStempel";
 
 export default function Admin() {

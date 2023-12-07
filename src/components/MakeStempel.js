@@ -40,7 +40,14 @@ export default function MakeStempel({ coworkers }) {
         time: time,
         periode: periode,
       })
-      .then((res) => console.log(res.data));
+      .then((res) => {
+        console.log(res);
+        alert("Stempel lavet");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Der skete en fejl");
+      });
   }
 
   return (
