@@ -20,6 +20,18 @@ export const app = firebase.initializeApp(firebaseConfig);
 export const database = firebase.firestore(app);
 export const auth = firebase.auth(app);
 export const messaging = getMessaging(app);
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/firebase-messaging-sw.js")
+    .then(function (registration) {
+      console.log("Service Worker registered with scope:", registration.scope);
+    })
+    .catch(function (err) {
+      console.error("Service Worker registration failed:", err);
+    });
+}
+
 getToken(messaging, {
   vapidKey:
     "BA2NoU2MRM3c0z2k74IYcgB8rdn6HdzTui4M7fvku_ZmA9zIE7GOMiJ0pqwb6I4811x3siim-LaX8aAVok04IX4",
