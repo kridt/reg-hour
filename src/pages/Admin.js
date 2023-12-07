@@ -63,10 +63,6 @@ export default function Admin() {
           );
         })}
       </div>
-
-      <div>
-        <button onClick={() => {}}>test noti</button>
-      </div>
     </div>
   );
 }
