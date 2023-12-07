@@ -29,6 +29,9 @@ export default function Lonkort() {
   }, [currentPeriod.nameOfPeriod]);
   Notification.requestPermission().then(function (result) {
     console.log(result);
+    database.collection("users").doc(auth?.currentUser?.uid).update({
+      notification: result,
+    });
     if (result === "granted") {
       new Notification("You have a new message");
     }

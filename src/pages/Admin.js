@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { database } from "../firebase";
+import { app, auth, database, messaging } from "../firebase";
 import AdminNav from "../components/AdminNav";
 import { Link } from "react-router-dom";
 import MakeStempel from "../components/MakeStempel";
@@ -65,18 +65,7 @@ export default function Admin() {
       </div>
 
       <div>
-        <button
-          onClick={() => {
-            Notification.requestPermission().then(function (result) {
-              console.log(result);
-              if (result === "granted") {
-                new Notification("You have a new message");
-              }
-            });
-          }}
-        >
-          test noti
-        </button>
+        <button onClick={() => {}}>test noti</button>
       </div>
     </div>
   );
